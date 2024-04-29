@@ -97,9 +97,9 @@ Now, input the following:
 
 Wire = [5, 50, 0.6, 100]
 Spark Gap = [default]
-Wire = [1e-3, 50, 0.6, 0.2] 
+Wire = [1e-3, 50, 0.6, 0.02] 
 
-The 0.2 points in the last wire is to limit time, instead of 10 which will reach the max MATLAB app memory limit.
+The 0.02 points in the last wire is to limit time, instead of 10 which will reach the max MATLAB app memory limit.
 
 Please also change the Max Time parameter to 200e-09 to shorten the max time, so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this model might take a while (on the order of minutes). It will hang on 2/5 in the progress bar, but please be patient!
 
