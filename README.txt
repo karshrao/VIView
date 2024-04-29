@@ -1,6 +1,6 @@
 VIView Guide
 Prepared by Sankarsh Rao (srr2949@mit.edu)
-For MATLAB2020 
+For MATLAB2020 onward
 
 
 Start-Up
@@ -13,7 +13,7 @@ Note: please do not try to re-size the GUI, but feel free keep it at the same si
 
 Default Values
 =======================
-You will notice that the Pulse Voltage Data field has already been populated with a sample data file. This data file is an experimental voltage chirp from an APG experiment provided in Figure 3 in the paper. Other sample data files are provided in the Data folder.
+You will notice that the Pulse Voltage Data field has already been populated with a sample data file. This data file is an experimental voltage waveform from an APG experiment provided in Figure 3 in the paper. Other sample data files are provided in the Data folder.
 
 You will also notice that the scaling parameters in the bottom of the GUI are also filled in with reasonable values for the simulation.
 
@@ -38,7 +38,7 @@ Wire = [1e-3, 50, 0.6, 10])
 
 * On the same vein, spark gap inputs WILL take a while so changing the max time input to have a reasonable computational time is necessary (800 ns --> 200 ns)
 
-* All loads and spark gaps are constant RC loads
+* All loads and spark gaps are constant RC loads -- for the spark gap, the resistance is a step function with two values
 
 * Wire inputs should have non-zero number inputs otherwise singularities will occur
 
@@ -85,9 +85,9 @@ The loads in this case are a good representation of an air-reactor, as they have
 
 Delete the entries in the Probe Location field, click Compute, and once the results pop up please feel free to explore the results as you wish (play the video, look at the waveforms and notice how most of the energy is deposited in the first load).
 
-Next, lets use the same system but instead use the sample Gaussian as an input: (exp(-(t-1.5).^2/0.2)). This is the same sample Gaussian as used in the paper. Please click the Sample Gaussian check-box, and then click Compute.
+Next, let's use the same system but instead use the sample Gaussian as an input: (exp(-(t-1.5).^2/0.2)). This is the same sample Gaussian as used in the paper. Please click the Sample Gaussian check-box, and then click Compute.
 
-Now, please look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, it is important to note that the Sample Gaussian is very good for rapidly seeing results.
+Now, please look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, it is important to note that the Sample Gaussian can be used for rapidly seeing results.
 
 
 Example 3: Spark Gap
@@ -102,13 +102,13 @@ Wire = [4, 50, 0.6, 100]
 Spark Gap = [default]
 Wire = [1e-3, 50, 0.6, 0.02] 
 
-The 0.02 points in the last wire is to limit time, instead of 10 which will reach the max MATLAB app memory limit.
+Even though the 0.02 points is not physical, this is necessary for modeling sparking -- when modeling sparking, ode15s() does not seem to like the initial guess for > 0.02 points in the ground wire. As such, the Spark Gap should be used with caution in terms of time and the solver. 
 
 Please also change the Max Time parameter to 200e-09 to shorten the max time, so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this model might take a few minutes! It will hang on 2/5 in the progress bar, but please be patient!
 
 Let's also extract these solution vectors, so please click that box too.
 
-Now, click Compute and again, please be patient as Spark Gaps take a couple of minutes to model!
+Now, click Compute and again, please be patient as Spark Gaps may take a couple of minutes to model!
 
 After the simulation is done, you can look at VIViewOut.mat as the output simplified solution vectors to do whatever you'd like with.
 
