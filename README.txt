@@ -1,10 +1,13 @@
 VIView Guide
 Prepared by Sankarsh Rao (srr2949@mit.edu)
+For MATLAB2020 
 
 
 Start-Up
 =======================
 To open the tool, if you do not already have MATLAB open, double click VIView.mlapp. If this does not work, have MATLAB open and right click VIView.mlapp in the directory window and click "Run".
+
+Note: please do not try to re-size the GUI, but feel free keep it at the same size and move it around.
 
 
 
@@ -31,7 +34,7 @@ Wire = [1e-3, 50, 0.6, 10])
 
 * Plots at the load location will plot the difference in voltage across the load and the corresponding current
 
-* Depending on the input the model will take a bit of time -- please be patient! If it takes too long (i.e. gets stuck at 2 or 3/5 in the progress bar), please do control + C to end the processing, re-open VIView and please simplify the inputs. There may be too many points, the max time too long, wires too long, etc.
+* Depending on the input the model will take a bit of time (on the order of minutes) -- please be patient! If it takes too long (i.e. gets stuck at 2 or 3/5 in the progress bar), please do control + C to end the processing, re-open VIView and please simplify the inputs. There may be too many points, the max time too long, wires too long, etc.
 
 * On the same vein, spark gap inputs WILL take a while so changing the max time input to have a reasonable computational time is necessary (800 ns --> 200 ns)
 
@@ -95,17 +98,19 @@ Click Clear All and uncheck the Sample Gaussian box so that we use the default e
 
 Now, input the following:
 
-Wire = [5, 50, 0.6, 100]
+Wire = [4, 50, 0.6, 100]
 Spark Gap = [default]
 Wire = [1e-3, 50, 0.6, 0.02] 
 
 The 0.02 points in the last wire is to limit time, instead of 10 which will reach the max MATLAB app memory limit.
 
-Please also change the Max Time parameter to 200e-09 to shorten the max time, so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this model might take a while (on the order of minutes). It will hang on 2/5 in the progress bar, but please be patient!
+Please also change the Max Time parameter to 200e-09 to shorten the max time, so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this model might take a few minutes! It will hang on 2/5 in the progress bar, but please be patient!
 
 Let's also extract these solution vectors, so please click that box too.
 
 Now, click Compute and again, please be patient as Spark Gaps take a couple of minutes to model!
+
+After the simulation is done, you can look at VIViewOut.mat as the output simplified solution vectors to do whatever you'd like with.
 
 This should be a good framework for understanding the tool -- please feel free to use it for your own situations. Another great use is to follow along with Case Studies 1-4, and 6.
 
