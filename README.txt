@@ -1,19 +1,28 @@
 VIView Guide (5/2/24)
 Prepared by Sankarsh Rao (srr2949@mit.edu)
+For MATLAB2020 onward
 
 
 Start-Up
 =======================
 To open the tool, if you do not already have MATLAB open, double click VIView.mlapp. If this does not work, have MATLAB open and right click VIView.mlapp in the directory window and click "Run".
 
+<<<<<<< HEAD
 Please wait until the logos appear before using the tool.
 
+=======
+Note: please do not try to re-size the GUI, but feel free keep it at the same size and move it around.
+>>>>>>> 1508191a0f881f866a8d6e6b888dfad413e30c2b
 
 
 
 Default Values
 =======================
+<<<<<<< HEAD
 The Pulse Voltage Data field has already been populated with a sample data file. This data file is an experimental voltage chirp from an APG experiment provided in Figure 3 in the paper. Other sample data files are provided in the Data folder.
+=======
+You will notice that the Pulse Voltage Data field has already been populated with a sample data file. This data file is an experimental voltage waveform from an APG experiment provided in Figure 3 in the paper. Other sample data files are provided in the Data folder.
+>>>>>>> 1508191a0f881f866a8d6e6b888dfad413e30c2b
 
 You will also notice that the scaling parameters in the bottom of the GUI are also filled in with reasonable values for the simulation.
 
@@ -33,9 +42,17 @@ Some things to note:
 
 * Plots at the load location will plot the difference in voltage across the load and the corresponding current
 
+<<<<<<< HEAD
 * Depending on the input the model will take minutes especially for spark gap inputs -- please be patient! If it takes too long (i.e. hangs for a couple of minutes at 2 or 3/5 in the progress bar), please do control + C to end the processing, re-open VIView and please simplify the inputs. There may be too many points, the max time is too long, etc.
 
 * All loads are constant RC loads and the spark gap voltage threshold is hard-coded to model air -- please feel free to change this for other gases
+=======
+* Depending on the input the model will take a bit of time (on the order of minutes) -- please be patient! If it takes too long (i.e. gets stuck at 2 or 3/5 in the progress bar), please do control + C to end the processing, re-open VIView and please simplify the inputs. There may be too many points, the max time too long, wires too long, etc.
+
+* On the same vein, spark gap inputs WILL take a while so changing the max time input to have a reasonable computational time is necessary (800 ns --> 200 ns)
+
+* All loads and spark gaps are constant RC loads -- for the spark gap, the resistance is a step function with two values
+>>>>>>> 1508191a0f881f866a8d6e6b888dfad413e30c2b
 
 * Wire inputs should have non-zero inputs otherwise singularities will occur
 
@@ -82,9 +99,15 @@ The loads in this case are a good representation of an air-reactor, as they have
 
 Check the Load Plots button once again, click Compute, and once the results pop up please feel free to explore the results as you wish (play the video, look at the waveforms and notice how most of the energy is deposited in the first load).
 
+<<<<<<< HEAD
 Next, let's use the same system but instead use the sample Gaussian as an input: (exp(-(t-1.5).^2/0.2)). This is the same sample Gaussian as used in the paper. Please click the Sample Gaussian check-box, and do not change anything else, and then click Compute.
 
 Now, please look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, one can note that the Sample Gaussian is best suited for rapidly seeing results with some loss in resolution.
+=======
+Next, let's use the same system but instead use the sample Gaussian as an input: (exp(-(t-1.5).^2/0.2)). This is the same sample Gaussian as used in the paper. Please click the Sample Gaussian check-box, and then click Compute.
+
+Now, please look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, it is important to note that the Sample Gaussian can be used for rapidly seeing results.
+>>>>>>> 1508191a0f881f866a8d6e6b888dfad413e30c2b
 
 
 Example 3: Spark Gap
@@ -95,8 +118,9 @@ Click Clear All and uncheck the Sample Gaussian box so that we use the default e
 
 Now, input the following:
 
-Wire = [5, 50, 0.6, 100]
+Wire = [4, 50, 0.6, 100]
 Spark Gap = [default]
+<<<<<<< HEAD
 Wire = [1e-2, 50, 0.6, 1] 
 
 Let's see what the waveforms look like at say, 3 m so please put 3 in the Probe Location field. Also, please check the Load Plots checkbox, and change the Max Time parameter to 200e-09 to shorten the max time so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this run might take on the order of minutes to complete. It will hang on 2/5 in the progress bar, but please be patient!
@@ -108,6 +132,19 @@ Now, click Compute and again, please be patient as Spark Gaps may take a couple 
 But wait, we hit an error! The message above the progress bar describes the error -- it seems that when we have an ODE solver error, we should fiddle around with the # of points in the wires. This is the price we pay for generalizing systems and using MATLAB's ode15s, which is sometimes buggy -- it sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
 
 To fix the error, let's change the # of points in the grounding wire to 2 by first clicking Delete Element and then re-inputting this:
+=======
+Wire = [1e-3, 50, 0.6, 0.02] 
+
+Even though the 0.02 points is not physical, this is necessary for modeling sparking -- when modeling sparking, ode15s() does not seem to like the initial guess for > 0.02 points in the ground wire. As such, the Spark Gap should be used with caution in terms of time and the solver. 
+
+Please also change the Max Time parameter to 200e-09 to shorten the max time, so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this model might take a few minutes! It will hang on 2/5 in the progress bar, but please be patient!
+
+Let's also extract these solution vectors, so please click that box too.
+
+Now, click Compute and again, please be patient as Spark Gaps may take a couple of minutes to model!
+
+After the simulation is done, you can look at VIViewOut.mat as the output simplified solution vectors to do whatever you'd like with.
+>>>>>>> 1508191a0f881f866a8d6e6b888dfad413e30c2b
 
 Wire = [1e-2, 50, 0.6, 2];
 
