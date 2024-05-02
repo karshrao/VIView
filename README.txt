@@ -1,4 +1,4 @@
-VIView Guide
+VIView Guide (5/2/24)
 Prepared by Sankarsh Rao (srr2949@mit.edu)
 
 
@@ -6,11 +6,14 @@ Start-Up
 =======================
 To open the tool, if you do not already have MATLAB open, double click VIView.mlapp. If this does not work, have MATLAB open and right click VIView.mlapp in the directory window and click "Run".
 
+Please wait until the logos appear before using the tool.
+
+
 
 
 Default Values
 =======================
-You will notice that the Pulse Voltage Data field has already been populated with a sample data file. This data file is an experimental voltage chirp from an APG experiment provided in Figure 3 in the paper. Other sample data files are provided in the Data folder.
+The Pulse Voltage Data field has already been populated with a sample data file. This data file is an experimental voltage chirp from an APG experiment provided in Figure 3 in the paper. Other sample data files are provided in the Data folder.
 
 You will also notice that the scaling parameters in the bottom of the GUI are also filled in with reasonable values for the simulation.
 
@@ -22,26 +25,23 @@ Best-Practices
 =======================
 Some things to note:
 
-* Always start with a wire element -- it is not physical to have no wire/cable between the power supply and the load, so this was not accounted for
+* Always start with a wire element
 
-* Always end with a wire element -- the ground end condition (it can be very small, say 
-Wire = [1e-3, 50, 0.6, 10])
+* Always end with a wire element -- this is how the ground end condition is applied. If your system has a grounding wire already, great! If not, we suggest you put in a small 1cm wire at the end of the system, as it will not noticeably change the resulting waveforms: Wire = [1e-2, 50, 0.6, 1]
 
-* The Sample Gaussian input is great for rapidly seeing how a waveform's reflections will look -- experimental input files may take longer
+* The Sample Gaussian input can be used for rapidly seeing how a waveform's reflections will look -- experimental input files may take longer
 
 * Plots at the load location will plot the difference in voltage across the load and the corresponding current
 
-* Depending on the input the model will take a bit of time -- please be patient! If it takes too long (i.e. gets stuck at 2 or 3/5 in the progress bar), please do control + C to end the processing, re-open VIView and please simplify the inputs. There may be too many points, the max time too long, wires too long, etc.
+* Depending on the input the model will take minutes especially for spark gap inputs -- please be patient! If it takes too long (i.e. hangs for a couple of minutes at 2 or 3/5 in the progress bar), please do control + C to end the processing, re-open VIView and please simplify the inputs. There may be too many points, the max time is too long, etc.
 
-* On the same vein, spark gap inputs WILL take a while so changing the max time input to have a reasonable computational time is necessary (800 ns --> 200 ns)
+* All loads are constant RC loads and the spark gap voltage threshold is hard-coded to model air -- please feel free to change this for other gases
 
-* All loads and spark gaps are constant RC loads
-
-* Wire inputs should have non-zero number inputs otherwise singularities will occur
+* Wire inputs should have non-zero inputs otherwise singularities will occur
 
 * Loads have 0 length -- they are used as BCs between each wire element. As such, wire-wire interfaces have an implied load of [R,C] = [0,0]
 
-* Solution vectors can be extracted by checking the "Extract Solution Vecs" box. This will save I, V, t, and x as a VIViewOut.mat in the VIView directory
+* Checking the "Extract Solution Vecs" box before computation will save I, V, t, and x as a VIViewOut.mat in the VIView directory
 
 
 
@@ -53,15 +53,15 @@ Please keep the default values and please input the following by using the Eleme
 
 Wire = [5, 50, 0.6, 200]
 Load = [50, 0]
-Wire = [1e-3, 50, 0.6, 10]
+Wire = [1e-2, 50, 0.6, 1]
 
 The first wire is a typical 5 meter cable from your power supply to the resistor. The load is a 50 ohm resistor with no capacitance. As all systems for the model need to start and end with a wire, a very small wire with the same properties was included at the end, leading to ground.
 
 Now, check the box for Load Plots (to plot the properties at the load), do not change any of the scaling parameters and click Compute.
 
-The RHS of the GUI should populate within 30 seconds. The Voltage vs. Time plot should be a peak at ~7e-8 secs and the rest of the plots should follow suit and the current profile should look very similar to the voltage. Since it is a matched load, the plots should show that there are little-to-no reflections. Clicking Play under the bottom-left graph should play a video that shows this fact.
+The RHS of the GUI should populate within a minute. The Voltage vs. Time plot should be a peak at ~7e-8 secs and and the current profile should look very similar to the voltage (matched). Since it is a matched load, the plots should show that there are little-to-no reflections. Clicking Play under the bottom-left graph should play a video that shows this fact. Please wait until the video is done playing before inputting any other commands.
 
-Now, let's add a probe at x = 0 and x = 2.5 m. Please input 0, 2.5 into the Probe Location field and click Compute again. You will see that top-left, top-right, and bottom-right plots show this change appropriately.
+Now, let's add a probe at x = 0 and x = 2.5 m. Please input 0, 2.5 (with the space) into the Probe Location field, do not change anything else, and click Compute again. You will see that top-left, top-right, and bottom-right plots show this change appropriately.
 
 
 
@@ -74,17 +74,17 @@ Now, let's model a system with multiple loads and changing wire characteristics.
 Wire = [5, 75, 0.6, 100]
 Wire = [2.5, 50, 0.5, 100]
 Load = [5000, 2e-11]
-Wire = [3, 50, 0.5,100]
+Wire = [3, 50, 0.5, 100]
 Load = [2500, 2e-11]
-Wire = [3, 50, 0.6, 10]
+Wire = [3, 50, 0.6, 100]
 
-The loads in this case are a good representation of an air-reactor, as they have high resistance and low capacitance. However, in this case sparking is not modeled.
+The loads in this case are a good representation of an air-reactor, as they have high resistance and low capacitance. However, in this case sparking is not modeled. Also, please notice how in this case, the grounding cable is long for no reason other than to showcase the tool's capabilities.
 
-Delete the entries in the Probe Location field, click Compute, and once the results pop up please feel free to explore the results as you wish (play the video, look at the waveforms and notice how most of the energy is deposited in the first load).
+Check the Load Plots button once again, click Compute, and once the results pop up please feel free to explore the results as you wish (play the video, look at the waveforms and notice how most of the energy is deposited in the first load).
 
-Next, lets use the same system but instead use the sample Gaussian as an input: (exp(-(t-1.5).^2/0.2)). This is the same sample Gaussian as used in the paper. Please click the Sample Gaussian check-box, and then click Compute.
+Next, let's use the same system but instead use the sample Gaussian as an input: (exp(-(t-1.5).^2/0.2)). This is the same sample Gaussian as used in the paper. Please click the Sample Gaussian check-box, and do not change anything else, and then click Compute.
 
-Now, please look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, it is important to note that the Sample Gaussian is very good for rapidly seeing results.
+Now, please look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, one can note that the Sample Gaussian is best suited for rapidly seeing results with some loss in resolution.
 
 
 Example 3: Spark Gap
@@ -97,20 +97,25 @@ Now, input the following:
 
 Wire = [5, 50, 0.6, 100]
 Spark Gap = [default]
-Wire = [1e-3, 50, 0.6, 0.2] 
+Wire = [1e-2, 50, 0.6, 1] 
 
-The 0.2 points in the last wire is to limit time, instead of 10 which will reach the max MATLAB app memory limit.
-
-Please also change the Max Time parameter to 200e-09 to shorten the max time, so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this model might take a while (on the order of minutes). It will hang on 2/5 in the progress bar, but please be patient!
+Let's see what the waveforms look like at say, 3 m so please put 3 in the Probe Location field. Also, please check the Load Plots checkbox, and change the Max Time parameter to 200e-09 to shorten the max time so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this run might take on the order of minutes to complete. It will hang on 2/5 in the progress bar, but please be patient!
 
 Let's also extract these solution vectors, so please click that box too.
 
-Now, click Compute and again, please be patient as Spark Gaps take a couple of minutes to model!
+Now, click Compute and again, please be patient as Spark Gaps may take a couple of minutes to model! 
 
-This should be a good framework for understanding the tool -- please feel free to use it for your own situations. Another great use is to follow along with Case Studies 1-4, and 6.
+But wait, we hit an error! The message above the progress bar describes the error -- it seems that when we have an ODE solver error, we should fiddle around with the # of points in the wires. This is the price we pay for generalizing systems and using MATLAB's ode15s, which is sometimes buggy -- it sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
 
+To fix the error, let's change the # of points in the grounding wire to 2 by first clicking Delete Element and then re-inputting this:
 
+Wire = [1e-2, 50, 0.6, 2];
 
+Click Compute and you should see the results on the RHS of the GUI!
+
+Explore the waveforms if you'd like and also try using the saved data to get other parameters, like cumulative current.
+
+This is a basic framework for understanding the tool -- please feel free to use it for your own situations. Another great use is to follow along with Case Studies 1-4, and 6 -- the outputs should match the paper exactly if the model is used correctly!
 
 
 
