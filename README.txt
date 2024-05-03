@@ -1,6 +1,6 @@
-VIView Guide (5/2/24)
+VIView Guide (05/02/24)
 Prepared by Sankarsh Rao (srr2949@mit.edu)
-For MATLAB2024a onward
+NOTE: For MATLAB2024a onward! Might run into errors with previous versions
 
 
 
@@ -76,16 +76,16 @@ Wire = [5, 75, 0.6, 100]
 Wire = [2.5, 50, 0.5, 100]
 Load = [5000, 2e-11]
 Wire = [3, 50, 0.5, 100]
-Load = [2500, 2e-11]
+Load = [2500, 5e-11]
 Wire = [3, 100, 0.6, 100]
 
-The loads in this case are a good representation of an air-reactor, as they have high resistance and low capacitance. However, in this case sparking is not modeled. Also, please notice how in this case, the grounding cable is long for no reason other than to showcase the tool's capabilities.
+The loads in this case are a representation of an air-reactor, as they have high resistance and low capacitance. However, in this case sparking is not modeled. Also, please notice how in this case, the grounding cable is long for no reason other than to showcase the tool's capabilities.
 
 Check the Load Plots button once again, click Compute, and once the results pop up please feel free to explore the results as you wish (play the video, look at the waveforms and notice how most of the energy is deposited in the first load).
 
 Next, let's use the same system but instead use the sample Gaussian as an input: (exp(-(t-1.5).^2/0.2)). This is the same sample Gaussian as used in the paper. Please click the Sample Gaussian check-box, and do not change anything else, and then click Compute.
 
-Now, please look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, one can note that the Sample Gaussian is best suited for rapidly seeing results with some loss in resolution.
+Now, please look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, one can note that the Sample Gaussian is well-suited for rapidly seeing results with some loss in resolution.
 
 
 
@@ -101,21 +101,21 @@ Wire = [4, 50, 0.6, 100]
 Spark Gap = [default]
 Wire = [1e-2, 50, 0.6, 1] 
 
-Let's see what the waveforms look like at say, 3 m so please put 3 in the Probe Location field. Also, please check the Load Plots checkbox, and change the Max Time parameter to 200e-09 to shorten the max time so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this run might take on the order of minutes to complete. It will hang on 2/5 in the progress bar, but please be patient!
+Let's see what the waveforms look like at say, 3 m so please put 3 in the Probe Location field. Also, please check the Load Plots checkbox, and change the Max Time parameter to 200e-09 to shorten the max time so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this run might take on the order of minutes to complete. It might hang on 2/5 in the progress bar, but please be patient!
 
 Let's also extract these solution vectors, so please click that box too.
 
 Now, click Compute and again, please be patient as Spark Gaps may take a couple of minutes to model! 
 
-But wait, we hit an error! The message above the progress bar describes the error -- when you have an ODE solver error, please vary the # of points in the wires. This is the price we pay for generalizing systems and using MATLAB's ode15s, which is sometimes buggy -- it sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
+But wait, we hit an error! The message above the progress bar describes the error -- when you have an ODE solve error, please vary the # of points in the wires. This is the price we pay for generalizing systems and using MATLAB's ode15s, which is sometimes buggy -- it sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
 
 To fix the error, let's change the # of points in the grounding wire to 2 by first clicking Delete Element and adding this element:
 
-Wire = [1e-3, 50, 0.6, 2] 
+Wire = [1e-2, 50, 0.6, 2] 
 
 Click Compute and you should see the results on the RHS of the GUI!
 
-Explore the waveforms if you'd like and also try using the saved data to get other parameters, like the cumulative current, power, etc.
+Explore the waveforms if you'd like and also please try using the saved data to get other parameters, like the cumulative current, power, etc.
 
 This is a basic framework for understanding the tool -- please feel free to use it for your own situations. Another great use is to follow along with Case Studies 1-4, and 6 in the paper -- the outputs should match the paper exactly if the model is used correctly!
 
