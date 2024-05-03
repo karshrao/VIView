@@ -85,7 +85,7 @@ Check the Load Plots button once again, click Compute, and once the results pop 
 
 Next, let's use the same system but instead use the sample Gaussian as an input: (exp(-(t-1.5).^2/0.2)). This is the same sample Gaussian as used in the paper. Please click the Sample Gaussian check-box, and do not change anything else, and then click Compute.
 
-Now, please look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, one can note that the Sample Gaussian is well-suited for rapidly seeing results with some loss in resolution.
+Now, please note how this took less time to product results than the experimental case. Please also look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, one can note that the Sample Gaussian is well-suited for rapidly seeing results with some loss in resolution.
 
 
 
@@ -107,19 +107,14 @@ Let's also extract these solution vectors, so please click that box too.
 
 Now, click Compute and again, please be patient as Spark Gaps may take a couple of minutes to model! 
 
-But wait, we hit an error! The message above the progress bar describes the error -- when you have an ODE solve error, please vary the # of points in the wires. This is the price we pay for generalizing systems and using MATLAB's ode15s, which is sometimes buggy -- it sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
+But wait, we hit an error! The message above the progress bar describes the error -- when you have an ODE solve error, please vary the # of points in the wires. This is the price we pay for generalizing systems and using MATLAB's ode15s, which sometimes does not like the resolution we give it -- it sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
 
 To fix the error, let's change the # of points in the grounding wire to 2 by first clicking Delete Element and adding this element:
 
 Wire = [1e-2, 50, 0.6, 2] 
 
-Click Compute and you should see the results on the RHS of the GUI!
+Keep everything else the same and click Compute and you should see the results on the RHS of the GUI!
 
-Explore the waveforms if you'd like and also please try using the saved data to get other parameters, like the cumulative current, power, etc.
+Explore the waveforms and if you'd like, please also try using the saved data to get other parameters, like the cumulative current, power, etc.
 
 This is a basic framework for understanding the tool -- please feel free to use it for your own situations. Another great use is to follow along with Case Studies 1-4, and 6 in the paper -- the outputs should match the paper exactly if the model is used correctly!
-
-
-
-
-
