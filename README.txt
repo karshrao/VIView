@@ -26,9 +26,9 @@ Best-Practices
 =======================
 Some things to note:
 
-* Always start with a wire element
+* Always start with a cable element
 
-* Always end with a wire element -- this is how the ground end condition is applied. If your system has a grounding wire already, great! If not, we suggest you put in a small 1cm wire at the end of the system, as it will not noticeably change the resulting waveforms: Wire = [1e-2, 50, 0.6, 1]
+* Always end with a cable element -- this is how the ground end condition is applied. If your system has a grounding cable already, great! If not, we suggest you put in a small 1cm cable at the end of the system, as it will not noticeably change the resulting waveforms: cable = [1e-2, 50, 0.6, 1]
 
 * The Sample Gaussian input can be used for rapidly seeing how a waveform's reflections will look -- experimental input files may take longer
 
@@ -38,9 +38,9 @@ Some things to note:
 
 * All loads are constant RC loads and the spark gap voltage threshold is hard-coded to model air -- please feel free to change this in the back-end for other gases
 
-* Wire inputs should have non-zero inputs otherwise singularities will occur
+* cable inputs should have non-zero inputs otherwise singularities will occur
 
-* Loads have 0 length -- they are used as BCs between each wire element. As such, wire-wire interfaces have an implied load of [R,C] = [0,0]
+* Loads have 0 length -- they are used as BCs between each cable element. As such, cable-cable interfaces have an implied load of [R,C] = [0,0]
 
 * Checking the "Extract Solution Vecs" box before computation will save I, V, t, and x as a VIViewOut.mat in the VIView directory
 
@@ -56,7 +56,7 @@ Cable = [5, 50, 0.6, 200]
 Load = [50, 0]
 Cable = [1e-2, 50, 0.6, 1]
 
-The first wire is a typical 5 meter cable from your power supply to the resistor. The load is a 50 ohm resistor with no capacitance. As all systems for the model need to start and end with a cable, a very small wire with the same properties was included at the end, leading to ground.
+The first cable is a typical 5 meter cable from your power supply to the resistor. The load is a 50 ohm resistor with no capacitance. As all systems for the model need to start and end with a cable, a very small cable with the same properties was included at the end, leading to ground.
 
 Now, check the box for Load Plots (to plot the properties at the load), do not change any of the scaling parameters and click Compute.
 
@@ -70,14 +70,14 @@ Example 2: Multiple Loads
 =========================
 Click Clear All to reset the model and GUI.
 
-Now, let's model a system with multiple loads and changing wire characteristics. Using the same voltage input file, please input the following:
+Now, let's model a system with multiple loads and changing cable characteristics. Using the same voltage input file, please input the following:
 
-Wire = [5, 75, 0.6, 100]
-Wire = [2.5, 50, 0.5, 100]
+cable = [5, 75, 0.6, 100]
+cable = [2.5, 50, 0.5, 100]
 Load = [5000, 2e-11]
-Wire = [3, 50, 0.5, 100]
+cable = [3, 50, 0.5, 100]
 Load = [2500, 5e-11]
-Wire = [3, 100, 0.6, 100]
+cable = [3, 100, 0.6, 100]
 
 Sparking is not modeled in this case. Also, please notice how the grounding cable is long for no reason other than to showcase the tool's capabilities. The loads have different properties for the same reason.
 
@@ -97,19 +97,19 @@ Click Clear All and uncheck the Sample Gaussian box so that we use the default e
 
 Now, input the following:
 
-Wire = [4, 50, 0.6, 100]
+cable = [4, 50, 0.6, 100]
 Spark Gap = [default]
-Wire = [1e-2, 50, 0.6, 1] 
+cable = [1e-2, 50, 0.6, 1] 
 
 Let's see what the waveforms look like at say, 3 m so please put 3 in the Probe Location field. Also, please check the Load Plots checkbox, and change the Max Time parameter to 400e-09 to shorten the max time so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this run might take a couple of minutes to complete. It might hang on 2/5 in the progress bar, but please be patient!
 
 Let's also extract these solution vectors, so please click the "Extract Solution Vecs" box too.
 
-Now, click Compute. BUT WAIT, WE HIT AN ERROR! The message above the progress bar describes the error -- when you have an ODE solve error, please vary the # of points in the wires. This is the price we pay for generalizing systems and using MATLAB's ode15s, which sometimes does not like the resolution we give it. It sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
+Now, click Compute. BUT WAIT, WE HIT AN ERROR! The message above the progress bar describes the error -- when you have an ODE solve error, please vary the # of points in the cables. This is the price we pay for generalizing systems and using MATLAB's ode15s, which sometimes does not like the resolution we give it. It sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
 
-To fix the error, let's change the # of points in the grounding wire to 2 by first clicking Delete Element and adding this element:
+To fix the error, let's change the # of points in the grounding cable to 2 by first clicking Delete Element and adding this element:
 
-Wire = [1e-2, 50, 0.6, 2] 
+cable = [1e-2, 50, 0.6, 2] 
 
 Keep everything else the same and click Compute and you should see the results on the RHS of the GUI!
 
