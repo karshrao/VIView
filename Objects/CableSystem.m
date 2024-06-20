@@ -1,4 +1,4 @@
-classdef Wire_System
+classdef CableSystem
     %SYSTEM Summary of this class goes here
     %   Detailed explanation goes here
     
@@ -16,7 +16,7 @@ classdef Wire_System
     end
     
     methods
-        function obj = Wire_System(Lc, Rc, u, RL, CL, dxt)
+        function obj = CableSystem(Lc, Rc, u, RL, CL, dxt)
             %SYSTEM Construct an instance of this class
             %   Detailed explanation goes here
             obj.Num_Cab=length(Lc);

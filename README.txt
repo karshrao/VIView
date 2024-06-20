@@ -1,4 +1,4 @@
-VIView Guide (05/02/24)
+VIView (Last Updated: 06/20/24)
 Prepared by Sankarsh Rao (srr2949@mit.edu)
 NOTE: For MATLAB2024a onward! Might run into errors with previous versions
 
@@ -34,7 +34,7 @@ Some things to note:
 
 * The Load Plots checkbox will plot the difference in voltage across the load and the corresponding current
 
-* Depending on the input the model may take ~minutes, especially for spark gap inputs -- please be patient! If it takes too long (i.e. hangs for a couple of minutes at 2 or 3/5 in the progress bar), please do control + C to end the processing, re-open VIView and please simplify the inputs. There may be too many points, the max time is too long, etc.
+* Depending on the input the model may take ~minutes, especially for spark gap inputs -- please be patient! If it takes too long (i.e. hangs at 2 or 3/5 in the progress bar, or gives an error message above the progress bar), please do control + C to end the processing, re-open VIView and please simplify the inputs. There may be too many points, the max time is too long, etc.
 
 * All loads are constant RC loads and the spark gap voltage threshold is hard-coded to model air -- please feel free to change this in the back-end for other gases
 
@@ -48,19 +48,19 @@ Some things to note:
 
 Example 1: Matched Load
 =======================
-Let's start with a simple example: a wire (cable) leading into a matched load (a resistor that matches the impedance exactly) leading to ground.
+Let's start with a simple example: a cable leading into a matched load (a resistor that matches the cable impedance exactly), leading to ground.
 
 Please keep the default values and please input the following by using the Element Type drop down menu and entering the appropriate numbers:
 
-Wire = [5, 50, 0.6, 200]
+Cable = [5, 50, 0.6, 200]
 Load = [50, 0]
-Wire = [1e-2, 50, 0.6, 1]
+Cable = [1e-2, 50, 0.6, 1]
 
-The first wire is a typical 5 meter cable from your power supply to the resistor. The load is a 50 ohm resistor with no capacitance. As all systems for the model need to start and end with a wire, a very small wire with the same properties was included at the end, leading to ground.
+The first wire is a typical 5 meter cable from your power supply to the resistor. The load is a 50 ohm resistor with no capacitance. As all systems for the model need to start and end with a cable, a very small wire with the same properties was included at the end, leading to ground.
 
 Now, check the box for Load Plots (to plot the properties at the load), do not change any of the scaling parameters and click Compute.
 
-The RHS of the GUI should populate within a minute. The Voltage vs. Time plot should be a peak at ~7e-8 secs and and the current profile should look very similar to the voltage (matched). Since it is a matched load, the plots should show that there are little-to-no reflections. Clicking Play under the bottom-left graph should play a video that shows this fact. Please wait until the video is done playing before inputting any other commands.
+The RHS of the GUI should populate within a minute. The Voltage vs. Time plot should be a peak at ~7e-8 secs and and the current profile should look very similar to the voltage. Since it is a matched load, the plots should show that there are little-to-no reflections. Clicking Play under the bottom-left graph should play a video that shows this fact. Please wait until the video is done playing before inputting any other commands.
 
 Now, let's add a probe at x = 0 and x = 2.5 m. Please input 0, 2.5 (with the space) into the Probe Location field, do not change anything else, and click Compute again. You will see that top-left, top-right, and bottom-right plots show this change appropriately.
 
@@ -79,13 +79,13 @@ Wire = [3, 50, 0.5, 100]
 Load = [2500, 5e-11]
 Wire = [3, 100, 0.6, 100]
 
-The loads in this case are a representation of an air-reactor, as they have high resistance and low capacitance. However, in this case sparking is not modeled. Also, please notice how in this case, the grounding cable is long for no reason other than to showcase the tool's capabilities.
+Sparking is not modeled in this case. Also, please notice how the grounding cable is long for no reason other than to showcase the tool's capabilities. The loads have different properties for the same reason.
 
 Check the Load Plots button once again, click Compute, and once the results pop up please feel free to explore the results as you wish (play the video, look at the waveforms and notice how most of the energy is deposited in the first load).
 
 Next, let's use the same system but instead use the sample Gaussian as an input: (exp(-(t-1.5).^2/0.2)). This is the same sample Gaussian as used in the paper. Please click the Sample Gaussian check-box, and do not change anything else, and then click Compute.
 
-Now, please note how this took less time to produce results than the experimental case. Please also look at the plots and note how everything is smoother than in the experimental input (so detail is lost), but the general shape and trends are the exact same. As such, one can note that the Sample Gaussian is well-suited for rapidly seeing results with some loss in resolution.
+Please note how this took less time to produce results than the experimental case. Please also look at the plots and note how everything is smoother than for the experimental input (so detail is lost), but the general shape and trends are the same. As such, one can note that the Sample Gaussian is well-suited for rapidly seeing results with some loss in resolution.
 
 
 
@@ -105,9 +105,7 @@ Let's see what the waveforms look like at say, 3 m so please put 3 in the Probe 
 
 Let's also extract these solution vectors, so please click the "Extract Solution Vecs" box too.
 
-Now, click Compute and again, please be patient as Spark Gaps may take a couple minutes to model! 
-
-BUT WAIT, we hit an error! The message above the progress bar describes the error -- when you have an ODE solve error, please vary the # of points in the wires. This is the price we pay for generalizing systems and using MATLAB's ode15s, which sometimes does not like the resolution we give it -- it sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
+Now, click Compute. BUT WAIT, WE HIT AN ERROR! The message above the progress bar describes the error -- when you have an ODE solve error, please vary the # of points in the wires. This is the price we pay for generalizing systems and using MATLAB's ode15s, which sometimes does not like the resolution we give it. It sometimes throws errors if you put in 1 point vs. 2 points, so we encourage the user to vary the # of points if an error is reached.
 
 To fix the error, let's change the # of points in the grounding wire to 2 by first clicking Delete Element and adding this element:
 
@@ -117,4 +115,4 @@ Keep everything else the same and click Compute and you should see the results o
 
 Explore the waveforms and if you'd like, please also try using the saved data to get other parameters, like the cumulative current, power, etc.
 
-This is a basic framework for understanding the tool -- please feel free to use it for your own situations. Another great use is to follow along with Case Studies 1-4, and 6 in the paper -- the outputs should match the paper exactly if the model is used correctly!
+This is a basic framework for understanding the tool -- please feel free to use it for your own situations. Another great use is to follow along with Case Studies 1-4, and 6 in the paper -- the outputs should match the paper exactly if the tool is used correctly!
