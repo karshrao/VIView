@@ -28,7 +28,7 @@ Some things to note:
 
 * Always start with a cable element
 
-* Always end with a cable element -- this is how the ground end condition is applied. If your system has a grounding cable already, great! If not, we suggest you put in a small 1cm cable at the end of the system, as it will not noticeably change the resulting waveforms: cable = [1e-2, 50, 0.6, 1]
+* Always end with a cable element -- this is how the ground end condition is applied. If your system has a grounding cable already, great! If not, we suggest you put in a small 1cm cable at the end of the system, as it will not noticeably change the resulting waveforms: Cable = [1e-2, 50, 0.6, 1]
 
 * The Sample Gaussian input can be used for rapidly seeing how a waveform's reflections will look -- experimental input files may take longer
 
@@ -38,7 +38,7 @@ Some things to note:
 
 * All loads are constant RC loads and the spark gap voltage threshold is hard-coded to model air -- please feel free to change this in the back-end for other gases
 
-* cable inputs should have non-zero inputs otherwise singularities will occur
+* Cable inputs should have non-zero inputs otherwise singularities will occur
 
 * Loads have 0 length -- they are used as BCs between each cable element. As such, cable-cable interfaces have an implied load of [R,C] = [0,0]
 
@@ -72,12 +72,12 @@ Click Clear All to reset the model and GUI.
 
 Now, let's model a system with multiple loads and changing cable characteristics. Using the same voltage input file, please input the following:
 
-cable = [5, 75, 0.6, 100]
-cable = [2.5, 50, 0.5, 100]
+Cable = [5, 75, 0.6, 100]
+Cable = [2.5, 50, 0.5, 100]
 Load = [5000, 2e-11]
-cable = [3, 50, 0.5, 100]
+Cable = [3, 50, 0.5, 100]
 Load = [2500, 5e-11]
-cable = [3, 100, 0.6, 100]
+Cable = [3, 100, 0.6, 100]
 
 Sparking is not modeled in this case. Also, please notice how the grounding cable is long for no reason other than to showcase the tool's capabilities. The loads have different properties for the same reason.
 
@@ -97,9 +97,9 @@ Click Clear All and uncheck the Sample Gaussian box so that we use the default e
 
 Now, input the following:
 
-cable = [4, 50, 0.6, 100]
+Cable = [4, 50, 0.6, 100]
 Spark Gap = [default]
-cable = [1e-2, 50, 0.6, 1] 
+Cable = [1e-2, 50, 0.6, 1] 
 
 Let's see what the waveforms look like at say, 3 m so please put 3 in the Probe Location field. Also, please check the Load Plots checkbox, and change the Max Time parameter to 400e-09 to shorten the max time so that the simulation does not take too long. Spark gaps are more computationally costly to model, so this run might take a couple of minutes to complete. It might hang on 2/5 in the progress bar, but please be patient!
 
@@ -109,7 +109,7 @@ Now, click Compute. BUT WAIT, WE HIT AN ERROR! The message above the progress ba
 
 To fix the error, let's change the # of points in the grounding cable to 2 by first clicking Delete Element and adding this element:
 
-cable = [1e-2, 50, 0.6, 2] 
+Cable = [1e-2, 50, 0.6, 2] 
 
 Keep everything else the same and click Compute and you should see the results on the RHS of the GUI!
 
